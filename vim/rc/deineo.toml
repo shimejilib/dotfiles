@@ -1,0 +1,54 @@
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+[[plugins]]
+repo = 'Shougo/context_filetype.vim'
+
+[[plugins]]
+repo = 'Shougo/deoplete.nvim'
+depends = 'Shougo/context_filetype.vim'
+on_i = 1
+hook_source ='''
+let g:deoplete#enable_at_startup = 1
+source ~/.vim/rc/plugins/deoplete.rc.vim
+'''
+
+[[plugins]]
+repo = 'neovim/nvim-lsp'
+
+[[plugins]]
+repo = 'zchee/deoplete-jedi'
+on_ft = 'python'
+depends = 'Shougo/deoplete.nvim'
+hook_source = '''
+let g:python3_host_prog = systemlist('pyenv which python3 || which python3')[0]
+let g:python_host_prog = systemlist('pyenv which python2 || which python2')[0]
+source ~/.vim/rc/plugins/jedi.rc.vim
+'''
+
+[[plugins]]
+repo = 'tomasr/molokai'
+hook_add = '''
+set background=dark
+au MyAutoCmd VimEnter * nested colorscheme molokai
+'''
+
+[[plugins]]
+repo = 'w0rp/ale'
+hook_add = '''
+let g:ale_linters = {
+\   'python': ['flake8'],
+\   'vim': [],
+\   'tex': [],
+\   'cpp': ['clang-format'],
+\   'java': [],
+\}
+
+'''
+[[plugins]]
+repo = 'cespare/vim-toml'
+on_ft = 'toml'
+
+[[plugins]]
+repo = 'dag/vim-fish'
+on_ft = 'fish'

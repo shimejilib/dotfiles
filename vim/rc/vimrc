@@ -1,0 +1,356 @@
+" my vim settings
+"
+"
+" Author: shimejilib
+" Last Change: 2020/02/12
+
+" set options--------------- 
+" {{{
+
+"settings to use multi byte character
+set encoding=utf-8
+scriptencoding utf-8
+
+set nofoldenable
+" 行数表示
+set number
+" swapfileを作らない
+set noswapfile
+" コマンド打つ場所の高さ
+set cmdheight=2
+" ファイル名表示
+set title
+" コマンドでも補完がきくように
+set wildmenu
+" 小文字で検索したとき大文字小文字を無視する
+set ignorecase
+" 検索キーワードが大文字を含む時だけ視無する
+set smartcase
+" 検索結果にハイライトをかける
+set hlsearch
+" インクリメント検索
+set incsearch
+" カーソルで行をまたげるようにする
+set whichwrap=b,s,h,l,<,>,[,]
+" tabなどを可視化する
+set list
+set listchars=tab:>-,extends:<,trail:-
+" バックスペースでindent, end of low, startを削除できるように
+set backspace=indent,eol,start
+" タブ幅4
+set tabstop=4
+set shiftwidth=4
+" マルチバイト用()
+set ambiwidth=double
+" pathに各拡張子用の設定を書いた物を追加
+set runtimepath+=~/.vim/,~/.vim/ftplugin/
+" エンコーディングの設定
+set fileencodings=utf-8,euc-jp,sjis,iso-2022-jp
+" もしutf-8ですべてのファイルを管理したければ
+set fileencoding=utf-8
+" この優先順位でファイルを保存する形式を決める
+set fileformats=unix,dos,mac
+" 256色描画
+set t_Co=256
+" Space をLeader にしてみる
+let g:mapleader = "\<Space>"
+" クリップボード連携
+set clipboard+=unnamed
+" show match
+set showmatch
+" input match ( Ex. (,[,", and other ) time * 0.1 sec
+set matchtime=1
+" length of complete list
+set pumheight=5
+" settings for ctags, tag jump
+set tags+=./tags;
+set path+=system("pyenv which python || which python")
+" 暗号のアルゴリズム
+if !has('nvim')
+  set cryptmethod=blowfish2
+endif
+set shell=/usr/local/bin/bash
+" set foldlevel=2
+" menuone = 候補を絞る
+" noselect = 補完時に自動選択しない
+" preview = 詳細表示
+" set completeopt=menuone,noselect,preview
+
+" }}}
+
+
+
+" mappings---------------
+" {{{
+
+" mapはキー設定
+" nnoremap が normal mode,
+" inoremap が insert mode,
+" cnoremap が command line mode
+" etc. etc.
+" Space w で保存 Space q で終了
+nnoremap <Leader>w :w<CR>
+nnoremap <Leader>q :q<CR>
+nnoremap q<Space> :q<CR>
+" うーん
+nnoremap <Leader>z :wq<CR>
+" 本来押しにくいけど慣れすぎて頻繁に押せるキーを置換
+nnoremap <CR> o
+" nnoremap <BS> X
+" for US key
+" nnoremap ; :
+" Space SpaceでVisual Line
+nnoremap <Leader><Leader> V
+vnoremap <Leader> <ESC>
+" 打ち間違い is うっとおしい
+nnoremap q: :q<CR>
+" +-で数字増えたり減ったりするよ
+nnoremap + <C-a>
+nnoremap - <C-x>
+vnoremap + <C-a>
+vnoremap g+ g<C-a>
+vnoremap g- g<C-x>
+
+" <>をうつのが面倒なので矢印で代替するよ><
+nnoremap <right> >>
+nnoremap <left> <<
+nnoremap > >>
+nnoremap < <<
+vnoremap <right> >
+vnoremap <left> <
+
+" <C-f><C-b>が直感的でないので<C-j><C-k>で代替
+nnoremap <C-j> <C-f>
+nnoremap <C-k> <C-b>
+vnoremap <C-j> <C-f>
+vnoremap <C-k> <C-b>
+
+" 実際の行でなく表示されてる行で移動を考える
+nnoremap j gj
+nnoremap gj j
+nnoremap k gk
+nnoremap gk h
+vnoremap j gj
+vnoremap gj j
+vnoremap k gk
+vnoremap gk h
+
+" $,0はポインタだが直感的でないので変更
+" nnoremap <C-l> $
+" nnoremap <C-h> 0
+" CheckHealthしたら怒られたのでナシ
+
+" 対応する括弧を自動入力
+" inoremap { {}<LEFT>
+" inoremap < <><LEFT>
+" inoremap [ []<LEFT>
+" inoremap ( ()<LEFT>
+" inoremap {} {}
+" inoremap <> <>
+" inoremap [] []
+" inoremap () ()
+
+" みんなやってるのでためしに導入してみる
+" inoremap jj <ESC>
+" キーボードの j が壊れ始めたので廃止
+" 同じノリで検索に移る
+" inoremap ff <ESC>/
+" ファイナルファンタジーでよく使うので廃止
+inoremap <C-f> <ESC>/
+
+
+" コピーしたテキストを貼り付ける
+nnoremap <Leader>p "0p
+
+" 空行挿入
+nnoremap <Leader>o o<ESC>
+nnoremap <Leader>O O<ESC>
+
+" I don't use EX MODE
+nnoremap Q <Nop>
+
+" 怖いので誤作動をなくす
+nnoremap ZZ <Nop>
+nnoremap ZQ <Nop>
+
+
+" 画面分割
+nnoremap <Leader>s :vsplit<CR>
+" nnoremap <Leader>- :split<CR>
+
+" 画面移動
+nnoremap <Leader>l <C-w>l
+nnoremap <Leader>j <C-w>j
+nnoremap <Leader>h <C-w>h
+nnoremap <Leader>k <C-w>k
+
+" 使いにくいキーを置換
+nnoremap m %
+" t を全然使わないのでバッファの移動に割り当て
+" nnoremap t gf
+nnoremap t :vsplit<CR><C-w>lgf
+nnoremap T <C-^>
+
+" バッファ移動
+nnoremap <Leader>bp :bprevious<CR>
+nnoremap <Leader>bn :bnext<CR>
+
+" タブ移動
+nnoremap <Leader>tp :tabprevious<CR>
+nnoremap <Leader>tn :tabnext<CR>
+
+" タブ操作
+nnoremap <Leader>tl :tablast<CR>
+nnoremap <Leader>tc :tabclose<CR>
+nnoremap <Leader>nt :tabnew<CR>
+
+nnoremap <Leader>tp :tabprevious<CR>
+
+" 括弧の後ろまで飛んで編集したい
+inoremap <C-m> <Esc>%i
+
+" *をより簡単に
+" つかってない説
+nnoremap <Leader>/ *
+
+" 日付入力ショートカット
+nnoremap <Leader>date a<C-r>=strftime('%Y/%m/%d')<Return><Esc>
+nnoremap <Leader>time a<C-r>=strftime('%H:%M:%S')<Return><Esc>
+nnoremap <Leader>now a<C-r>=strftime('%Y/%m/%d %H:%M:%S')<Return><Esc>
+" Vimgrep
+nnoremap <Leader>v :vim //j ./* | cw
+
+" edit vimrc
+nnoremap <Leader>. :<C-u>tabedit ~/.vim/rc/vimrc<CR>
+
+" use NERDTree
+" nnoremap <Leader>e :NERDTree<CR>
+
+" nnoremap <Leader>c :make<CR>
+nnoremap <Leader>m :make<CR>
+
+nnoremap <Leader>f :%foldclose<CR>
+
+" put esc-key for delete highlight
+nnoremap <silent> <Esc><Esc> :nohlsearch<CR>
+
+" なんか insert mode でエンターするとノーマルに戻るのでくさいものにふた
+inoremap <CR> <CR>
+
+nnoremap <Leader>T :vsp<CR><C-w>l<C-]>
+
+" 検索したときに，画面の真ん中に移動
+nnoremap n nzz
+nnoremap N Nzz
+
+" 他のコマンドと挙動を合わせる
+nnoremap Y y$
+
+" }}}
+
+
+" OSの判定
+if has('win32')
+	let g:ostype = 'Win'
+elseif has('mac')
+	let g:ostype = 'Mac'
+else
+	let g:ostype = system('uname')
+endif
+
+
+
+" reset augroup
+augroup MyAutoCmd
+  autocmd!
+augroup END
+
+" road template
+autocmd MyAutoCmd BufNewFile *.py 0r $HOME/.vim/template/template.py
+autocmd MyAutoCmd BufNewFile *.cpp 0r $HOME/.vim/template/template.cpp
+autocmd MyAutoCmd BufNewFile *.cc 0r $HOME/.vim/template/template.cpp
+autocmd MyAutoCmd BufNewFile *.c 0r $HOME/.vim/template/template.cpp
+autocmd MyAutoCmd BufNewFile *.sh 0r $HOME/.vim/template/template.sh
+autocmd MyAutoCmd BufNewFile *.tex 0r $HOME/.vim/template/template.tex
+autocmd MyAutoCmd BufNewFile Makefile 0r $HOME/.vim/template/template.make
+
+augroup autoxxd
+	autocmd!
+	autocmd BufReadPost * if &binary | silent %!xxd -g 1
+	autocmd BufReadPost * set ft=xxd | endif
+	autocmd BufWritePre * if &binary | %!xxd -r | endif
+	autocmd BufWritePost * if &binary | silent %!xxd -g 1
+	autocmd BufWritePost * set nomod | endif
+augroup END
+
+
+" 引用 by https://rcmdnk.com/blog/2017/03/10/computer-mac-vim/
+" これでIME無効化できるはずだよ
+" ---------------
+" {{{
+if has('mac')
+  set ttimeoutlen=1
+  let g:imeoff = 'osascript -e "tell application \"System Events\" to key code 102"'
+  augroup MyIMEGroup
+    autocmd!
+    autocmd InsertLeave * :call system(g:imeoff)
+  augroup END
+  noremap <silent> <ESC> <ESC>:call system(g:imeoff)<CR>
+endif
+" }}}
+
+
+" 引用 by https://github.com/Shougo/shougo-s-github/blob/master/vim/rc/vimrc
+function! s:source_rc(path, ...) abort "{{{
+  let l:use_global = get(a:000, 0, !has('vim_starting'))
+  let l:abspath = resolve(expand('~/.vim/rc/' . a:path))
+  if !l:use_global
+    execute 'source' fnameescape(l:abspath)
+    return
+  endif
+  " substitute all 'set' to 'setglobal'
+  let content = map(readfile(abspath),
+        \ 'substitute(v:val, "^\\W*\\zsset\\ze\\W", "setglobal", "")')
+  " create tempfile and source the tempfile
+  let tempfile = tempname()
+  try
+    call writefile(content, tempfile)
+    execute 'source' fnameescape(tempfile)
+  finally
+    if filereadable(tempfile)
+      call delete(tempfile)
+    endif
+  endtry
+endfunction
+"}}}
+" dein.rc.vimを読み込む
+call s:source_rc('dein.rc.vim')
+
+
+" if vim8.0 or latest, Disable packpath
+if v:version >= 800
+  set packpath=
+endif
+
+" 引数なしでvimを開くとNERDTreeを起動
+let g:file_name = expand('%')
+if has('vim_starting') &&  g:file_name ==? ''
+  " autocmd MyAutoCmd VimEnter * NERDTree ./
+endif
+
+" For snippet_complete marker.
+if has('conceal')
+  set conceallevel=2 concealcursor=i
+endif
+
+" status bar
+set laststatus=2
+
+" 透過用処理らしい
+highlight Normal ctermbg=none
+
+filetype plugin indent on
+syntax on
+
+" vim:set foldmethod=marker:
+

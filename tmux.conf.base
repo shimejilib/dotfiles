@@ -1,0 +1,42 @@
+set-option -g default-terminal screen-256color
+set -g terminal-overrides 'xterm:colors=256'
+# キーストロークのディレイを減らす
+set -sg escape-time 0
+
+# reload .conf
+bind r source-file ~/.tmux.conf \; display "Reloaded!"
+
+bind-key -n C-h send-keys Escape "[104;5u"
+
+set-option -g prefix C-q
+unbind-key C-b
+# bind-key C-g send-prefix
+
+# to use vims key bind on copy mode
+setw -g mode-keys vi
+bind-key -T copy-mode-vi v send-keys -X begin-selection
+bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "pbcopy"
+unbind -T copy-mode-vi Enter
+bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "pbcopy"
+
+# |- でペイン分割
+bind | split-window -h
+bind - split-window -v
+
+
+# Vimのキーバインドでペインをリサイズする
+bind -r H resize-pane -L 5
+bind -r J resize-pane -D 5
+bind -r K resize-pane -U 5
+bind -r L resize-pane -R 5
+
+# Vim キーバインドでペインを移動
+bind h select-pane -L
+bind j select-pane -D
+bind k select-pane -U
+bind l select-pane -R
+
+# bash を fish に
+set-option -g default-command "fish"
+
+
